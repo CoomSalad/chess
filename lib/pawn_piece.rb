@@ -1,10 +1,9 @@
 require './lib/chess_piece'
+require './lib/empty'
 
 class PawnPiece < ChessPiece
   attr_reader :moved
   attr_accessor :en_vulnerable
-
-  EMPTY = '□'
 
   def initialize(icon)
     super(icon)
@@ -17,7 +16,7 @@ class PawnPiece < ChessPiece
     if destination.rank == start.rank + 2 && start.file == destination.file
       # handles first move 2 spaces
       # handles en passant
-      if space[destination.file - 1][destination.rank - 1] == EMPTY && space[destination.file - 1][destination.rank - 2] == EMPTY
+      if space[destination.file - 1][destination.rank - 1].is_a?(Empty) && space[destination.file - 1][destination.rank - 2].is_a?(Empty)
         if @moved
           puts 'Invalid move. Pawn can move forward 2 spaces only on first move.'
         else
@@ -40,7 +39,7 @@ class PawnPiece < ChessPiece
     elsif destination.rank - start.rank == 1 && start.file == destination.file
       # handles move 1 space
       puts 'handling pawn move 1 space'
-      return true if space[destination.file - 1][destination.rank - 1] == EMPTY
+      return true if space[destination.file - 1][destination.rank - 1].is_a?(Empty)
 
       puts 'Invalid move. Piece in Pawn\'s path.'
 
@@ -55,7 +54,7 @@ class PawnPiece < ChessPiece
   end
 
   def en_passant(destination, space)
-    space[destination.file - 1][destination.rank - 2] = EMPTY
+    space[destination.file - 1][destination.rank - 2] = Empty.new(EMPTY)
   end
 
   def update_state

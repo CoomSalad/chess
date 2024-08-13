@@ -35,21 +35,36 @@ class ChessBoard
   def setup
     @space = [
       [RookPiece.new(WHITE_ROOK),
-       PawnPiece.new(WHITE_PAWN)] + Array.new(4, EMPTY) + [PawnPiece.new(BLACK_PAWN), RookPiece.new(BLACK_ROOK)],
+       PawnPiece.new(WHITE_PAWN)] + Array.new(4,
+                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
+                                                                   RookPiece.new(BLACK_ROOK)],
       [KnightPiece.new(WHITE_KNIGHT),
-       PawnPiece.new(WHITE_PAWN)] + Array.new(4, EMPTY) + [PawnPiece.new(BLACK_PAWN), KnightPiece.new(BLACK_KNIGHT)],
+       PawnPiece.new(WHITE_PAWN)] + Array.new(4,
+                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
+                                                                   KnightPiece.new(BLACK_KNIGHT)],
       [BishopPiece.new(WHITE_BISHOP),
-       PawnPiece.new(WHITE_PAWN)] + Array.new(4, EMPTY) + [PawnPiece.new(BLACK_PAWN), BishopPiece.new(BLACK_BISHOP)],
+       PawnPiece.new(WHITE_PAWN)] + Array.new(4,
+                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
+                                                                   BishopPiece.new(BLACK_BISHOP)],
       [QueenPiece.new(WHITE_QUEEN),
-       PawnPiece.new(WHITE_PAWN)] + Array.new(4, EMPTY) + [PawnPiece.new(BLACK_PAWN), QueenPiece.new(BLACK_QUEEN)],
+       PawnPiece.new(WHITE_PAWN)] + Array.new(4,
+                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
+                                                                   QueenPiece.new(BLACK_QUEEN)],
       [KingPiece.new(WHITE_KING),
-       PawnPiece.new(WHITE_PAWN)] + Array.new(4, EMPTY) + [PawnPiece.new(BLACK_PAWN), KingPiece.new(BLACK_KING)],
+       PawnPiece.new(WHITE_PAWN)] + Array.new(4,
+                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
+                                                                   KingPiece.new(BLACK_KING)],
       [BishopPiece.new(WHITE_BISHOP),
-       PawnPiece.new(WHITE_PAWN)] + Array.new(4, EMPTY) + [PawnPiece.new(BLACK_PAWN), BishopPiece.new(BLACK_BISHOP)],
+       PawnPiece.new(WHITE_PAWN)] + Array.new(4,
+                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
+                                                                   BishopPiece.new(BLACK_BISHOP)],
       [KnightPiece.new(WHITE_KNIGHT),
-       PawnPiece.new(WHITE_PAWN)] + Array.new(4, EMPTY) + [PawnPiece.new(BLACK_PAWN), KnightPiece.new(BLACK_KNIGHT)],
+       PawnPiece.new(WHITE_PAWN)] + Array.new(4,
+                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
+                                                                   KnightPiece.new(BLACK_KNIGHT)],
       [RookPiece.new(WHITE_ROOK),
-       PawnPiece.new(WHITE_PAWN)] + Array.new(4, EMPTY) + [PawnPiece.new(BLACK_PAWN), RookPiece.new(BLACK_ROOK)]
+       PawnPiece.new(WHITE_PAWN)] + Array.new(4,
+                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN), RookPiece.new(BLACK_ROOK)]
     ]
   end
 
@@ -85,7 +100,7 @@ class ChessBoard
     @space.each_with_index do |file, file_index|
       file.each_with_index do |piece, rank_index|
         # Check if non-EMPTY, opposing piece puts King in check
-        next if piece == EMPTY || is_side?(piece, side)
+        next if piece.is_a?(Empty) || is_side?(piece, side)
 
         next unless piece.match_move_pattern?(position(file_index, rank_index), king_position(side), @space)
 
@@ -112,7 +127,7 @@ class ChessBoard
     if castling
       king_to_left = (destination.file - start.file).negative?
       rook = @space[king_to_left ? 3 : 5][0]
-      @space[king_to_left ? 3 : 5][0] = EMPTY
+      @space[king_to_left ? 3 : 5][0] = Empty.new(EMPTY)
       @space[king_to_left ? 0 : 7][side == WHITE ? 0 : 7] = rook
     end
     @space[destination.file - 1][destination.rank - 1] = destination_backup
@@ -156,7 +171,7 @@ class ChessBoard
 
   def move_piece(start, destination)
     @space[destination.file - 1][destination.rank - 1] = square(start)
-    @space[start.file - 1][start.rank - 1] = EMPTY
+    @space[start.file - 1][start.rank - 1] = Empty.new(EMPTY)
   end
 
   def castle(start, destination)

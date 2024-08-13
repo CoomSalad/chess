@@ -1,4 +1,5 @@
 require './lib/chess_piece'
+require './lib/empty'
 
 class QueenPiece < ChessPiece
   def match_move_pattern?(start, destination, space)
@@ -18,7 +19,7 @@ class QueenPiece < ChessPiece
     if start.rank == destination.rank
       # Handle horizontal move
       for i in 1..((destination.file - start.file).abs - 1)
-        if space[start.file - 1 + i * dx][start.rank - 1] != EMPTY
+        unless space[start.file - 1 + i * dx][start.rank - 1].is_a?(Empty)
           puts 'Invalid move. Piece in Queen\'s path.'
           return false
         end
@@ -27,7 +28,7 @@ class QueenPiece < ChessPiece
     elsif start.file == destination.file
       # Handle vertical move
       for i in 1..((destination.rank - start.rank).abs - 1)
-        if space[start.file - 1][start.rank - 1 + i * dy] != EMPTY
+        unless space[start.file - 1][start.rank - 1 + i * dy].is_a?(Empty)
           puts 'Invalid move. Piece in Queen\'s path.'
           return false
         end
@@ -36,7 +37,7 @@ class QueenPiece < ChessPiece
     elsif (destination.file - start.file).abs == (destination.rank - start.rank).abs
       # Handle diagonal move
       for i in 1..((destination.file - start.file).abs - 1)
-        if space[start.file - 1 + i * dx][start.rank - 1 + i * dy] != EMPTY
+        unless space[start.file - 1 + i * dx][start.rank - 1 + i * dy].is_a?(Empty)
           puts 'Invalid move. Piece in Queen\'s path.'
           return false
         end

@@ -36,7 +36,7 @@ class Chess
       p move[3..4]
       start = Position.new(move[0..1])
       destination = Position.new(move[3..4])
-      if @chess_board.square(start).is_a?(String)
+      if @chess_board.square(start).is_a?(Empty)
         puts "Invalid move. #{start} is empty."
       elsif start == destination
         puts 'Invalid move. Start and destination are the same.'
@@ -44,7 +44,7 @@ class Chess
         puts 'Invalid move. Position out of bound.'
       elsif @chess_board.square(start).white? != (@current_player == WHITE)
         puts "Invalid move. Piece on #{start} is not #{@current_player}."
-      elsif !@chess_board.square(destination).is_a?(String) && @chess_board.square(destination).white? == (@current_player == WHITE)
+      elsif !@chess_board.square(destination).is_a?(Empty) && @chess_board.square(destination).white? == (@current_player == WHITE)
         puts "Invalid move. Piece on #{destination} is #{@current_player}."
       elsif @chess_board.valid?(start, destination)
         # the move is valid

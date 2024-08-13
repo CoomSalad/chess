@@ -15,7 +15,7 @@ class RookPiece < ChessPiece
     if start.rank == destination.rank
       # Handle horizontal move
       for i in 1..((destination.file - start.file).abs - 1)
-        if space[start.file - 1 + i * dx][start.rank - 1] != EMPTY
+        unless space[start.file - 1 + i * dx][start.rank - 1].is_a?(Empty)
           puts 'Invalid move. Piece in Rook\'s path.'
           return false
         end
@@ -24,7 +24,7 @@ class RookPiece < ChessPiece
     elsif start.file == destination.file
       # Handle vertical move
       for i in 1..((destination.rank - start.rank).abs - 1)
-        if space[start.file - 1][start.rank - 1 + i * dy] != EMPTY
+        unless space[start.file - 1][start.rank - 1 + i * dy].is_a?(Empty)
           puts 'Invalid move. Piece in Rook\'s path.'
           return false
         end

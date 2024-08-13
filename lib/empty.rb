@@ -7,6 +7,7 @@ class Empty < ChessPiece
   end
 
   def white?
+    puts 'You should not see this. Empty.white?'
     false
   end
 

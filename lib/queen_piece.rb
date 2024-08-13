@@ -20,7 +20,7 @@ class QueenPiece < ChessPiece
       # Handle horizontal move
       for i in 1..((destination.file - start.file).abs - 1)
         unless space[start.file - 1 + i * dx][start.rank - 1].is_a?(Empty)
-          puts 'Invalid move. Piece in Queen\'s path.'
+          # puts 'Invalid move. Piece in Queen\'s path.'
           return false
         end
       end
@@ -29,7 +29,7 @@ class QueenPiece < ChessPiece
       # Handle vertical move
       for i in 1..((destination.rank - start.rank).abs - 1)
         unless space[start.file - 1][start.rank - 1 + i * dy].is_a?(Empty)
-          puts 'Invalid move. Piece in Queen\'s path.'
+          # puts 'Invalid move. Piece in Queen\'s path.'
           return false
         end
       end
@@ -38,13 +38,13 @@ class QueenPiece < ChessPiece
       # Handle diagonal move
       for i in 1..((destination.file - start.file).abs - 1)
         unless space[start.file - 1 + i * dx][start.rank - 1 + i * dy].is_a?(Empty)
-          puts 'Invalid move. Piece in Queen\'s path.'
+          # puts 'Invalid move. Piece in Queen\'s path.'
           return false
         end
       end
       true
     else
-      puts 'Invalid move. Queen moves horizontally, vertically or diagonally.'
+      # puts 'Invalid move. Queen moves horizontally, vertically or diagonally.'
       false
     end
   end

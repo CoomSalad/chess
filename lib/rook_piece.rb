@@ -16,7 +16,7 @@ class RookPiece < ChessPiece
       # Handle horizontal move
       for i in 1..((destination.file - start.file).abs - 1)
         unless space[start.file - 1 + i * dx][start.rank - 1].is_a?(Empty)
-          puts 'Invalid move. Piece in Rook\'s path.'
+          # puts 'Invalid move. Piece in Rook\'s path.'
           return false
         end
       end
@@ -25,13 +25,13 @@ class RookPiece < ChessPiece
       # Handle vertical move
       for i in 1..((destination.rank - start.rank).abs - 1)
         unless space[start.file - 1][start.rank - 1 + i * dy].is_a?(Empty)
-          puts 'Invalid move. Piece in Rook\'s path.'
+          # puts 'Invalid move. Piece in Rook\'s path.'
           return false
         end
       end
       true
     else
-      puts 'Invalid move. Rook moves horizontally or vertically.'
+      # puts 'Invalid move. Rook moves horizontally or vertically.'
       false
     end
   end

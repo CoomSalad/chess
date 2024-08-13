@@ -3,6 +3,7 @@ require_relative 'position'
 
 class Chess
   WHITE = ChessBoard::WHITE
+  BLACK = ChessBoard::BLACK
 
   def initialize
     @chess_board = ChessBoard.new
@@ -15,7 +16,7 @@ class Chess
   end
 
   def rotate_player
-    @current_player == WHITE ? BLACK : WHITE
+    @current_player = @current_player == WHITE ? BLACK : WHITE
     @chess_board.clear_en_vulnerability(@current_player)
   end
 
@@ -32,8 +33,6 @@ class Chess
         next
       end
 
-      p move[0..1]
-      p move[3..4]
       start = Position.new(move[0..1])
       destination = Position.new(move[3..4])
       if @chess_board.square(start).is_a?(Empty)
@@ -48,11 +47,8 @@ class Chess
         puts "Invalid move. Piece on #{destination} is #{@current_player}."
       elsif @chess_board.valid?(start, destination)
         # the move is valid
-        puts 'move valid'
         @chess_board.move(start, destination)
-        puts 'finished move'
         rotate_player
-        puts 'finished turn'
         break
       end
       puts 'Enter move again:'

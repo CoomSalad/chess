@@ -12,18 +12,14 @@ class KingPiece < ChessPiece
       if @moved
         puts 'Invalid move. Cannot Castle since King has moved.'
       elsif space[(destination.file - start.file).negative? ? 0 : 7][white? ? 0 : 7].is_a?(RookPiece)
-        if space[(destination.file - start.file).negative? ? 0 : 7][white? ? 0 : 7].moved
-          puts 'Invalid move. Cannot Castle since Rook has moved.'
-        else
-          true
-        end
-      else
+        return true unless space[(destination.file - start.file).negative? ? 0 : 7][white? ? 0 : 7].moved
+
         puts 'Invalid move. Cannot Castle since Rook has moved.'
       end
     elsif (destination.file - start.file).abs > 1 || (destination.rank - start.rank).abs > 1
-      puts 'Invalid move. King can move 1 space in any direction, or castle.'
+      # puts 'Invalid move. King can move 1 space in any direction, or castle.'
     else
-      true
+      return true
     end
     false
   end

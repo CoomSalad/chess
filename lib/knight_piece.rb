@@ -5,8 +5,9 @@ class KnightPiece < ChessPiece
     case [(destination.file - start.file).abs, (destination.rank - start.rank).abs]
     in [1, 2]|[2, 1]
       true
+    else
+      # puts 'Invalid move. Knight moves in L - 2 space straight then 1 space sideway.'
+      false
     end
-    puts 'Invalid move. Knight moves in L - 2 space straight then 1 space sideway.'
-    false
   end
 end

@@ -36,42 +36,40 @@ class ChessBoard
     @space = [
       [RookPiece.new(WHITE_ROOK),
        PawnPiece.new(WHITE_PAWN)] + Array.new(4,
-                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
-                                                                   RookPiece.new(BLACK_ROOK)],
+                                              Empty.new) + [PawnPiece.new(BLACK_PAWN),
+                                                            RookPiece.new(BLACK_ROOK)],
       [KnightPiece.new(WHITE_KNIGHT),
        PawnPiece.new(WHITE_PAWN)] + Array.new(4,
-                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
-                                                                   KnightPiece.new(BLACK_KNIGHT)],
+                                              Empty.new) + [PawnPiece.new(BLACK_PAWN),
+                                                            KnightPiece.new(BLACK_KNIGHT)],
       [BishopPiece.new(WHITE_BISHOP),
        PawnPiece.new(WHITE_PAWN)] + Array.new(4,
-                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
-                                                                   BishopPiece.new(BLACK_BISHOP)],
+                                              Empty.new) + [PawnPiece.new(BLACK_PAWN),
+                                                            BishopPiece.new(BLACK_BISHOP)],
       [QueenPiece.new(WHITE_QUEEN),
        PawnPiece.new(WHITE_PAWN)] + Array.new(4,
-                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
-                                                                   QueenPiece.new(BLACK_QUEEN)],
+                                              Empty.new) + [PawnPiece.new(BLACK_PAWN),
+                                                            QueenPiece.new(BLACK_QUEEN)],
       [KingPiece.new(WHITE_KING),
        PawnPiece.new(WHITE_PAWN)] + Array.new(4,
-                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
-                                                                   KingPiece.new(BLACK_KING)],
+                                              Empty.new) + [PawnPiece.new(BLACK_PAWN),
+                                                            KingPiece.new(BLACK_KING)],
       [BishopPiece.new(WHITE_BISHOP),
        PawnPiece.new(WHITE_PAWN)] + Array.new(4,
-                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
-                                                                   BishopPiece.new(BLACK_BISHOP)],
+                                              Empty.new) + [PawnPiece.new(BLACK_PAWN),
+                                                            BishopPiece.new(BLACK_BISHOP)],
       [KnightPiece.new(WHITE_KNIGHT),
        PawnPiece.new(WHITE_PAWN)] + Array.new(4,
-                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN),
-                                                                   KnightPiece.new(BLACK_KNIGHT)],
+                                              Empty.new) + [PawnPiece.new(BLACK_PAWN),
+                                                            KnightPiece.new(BLACK_KNIGHT)],
       [RookPiece.new(WHITE_ROOK),
        PawnPiece.new(WHITE_PAWN)] + Array.new(4,
-                                              Empty.new(EMPTY)) + [PawnPiece.new(BLACK_PAWN), RookPiece.new(BLACK_ROOK)]
+                                              Empty.new) + [PawnPiece.new(BLACK_PAWN), RookPiece.new(BLACK_ROOK)]
     ]
   end
 
   # takes a Position and return the piece in corresponding square
   def square(position)
-    p @space[position.file - 1][position.rank - 1]
-    puts
     @space[position.file - 1][position.rank - 1]
   end
 
@@ -81,8 +79,8 @@ class ChessBoard
 
   def king_position(side)
     king = side == WHITE ? WHITE_KING : BLACK_KING
-    for i in 0..FILES
-      for j in 0..RANKS
+    for i in 0..FILES - 1
+      for j in 0..RANKS - 1
         return position(i, j) if @space[i][j].icon == king
       end
     end
@@ -127,25 +125,23 @@ class ChessBoard
     if castling
       king_to_left = (destination.file - start.file).negative?
       rook = @space[king_to_left ? 3 : 5][0]
-      @space[king_to_left ? 3 : 5][0] = Empty.new(EMPTY)
+      @space[king_to_left ? 3 : 5][0] = Empty.new
       @space[king_to_left ? 0 : 7][side == WHITE ? 0 : 7] = rook
     end
     @space[destination.file - 1][destination.rank - 1] = destination_backup
-    @space[start.file - 1][start.rank(-1)] = start_backup
+    @space[start.file - 1][start.rank - 1] = start_backup
     result
   end
 
   def valid?(start, destination)
-    puts 'in chess_board.valid?'
     # First check if piece could make such move
     if square(start).match_move_pattern?(start, destination, @space)
       puts 'move pattern matched'
       # Then check if it puts King in check
-      if put_king_in_check?(start, destination)
-        puts 'The move would put your King in check.'
-      else
-        true
-      end
+      return true unless put_king_in_check?(start, destination)
+
+      puts 'The move would put your King in check.'
+
     end
     puts 'move pattern not matched'
     false
@@ -171,7 +167,7 @@ class ChessBoard
 
   def move_piece(start, destination)
     @space[destination.file - 1][destination.rank - 1] = square(start)
-    @space[start.file - 1][start.rank - 1] = Empty.new(EMPTY)
+    @space[start.file - 1][start.rank - 1] = Empty.new
   end
 
   def castle(start, destination)
@@ -213,7 +209,7 @@ class ChessBoard
   def clear_en_vulnerability(side)
     @space.each do |file|
       file.each do |piece|
-        piece.clear_vulnerability if is_side?(piece, side) && piece.is_a?(PawnPiece)
+        piece.clear_vulnerability if piece.is_a?(PawnPiece) && is_side?(piece, side)
       end
     end
   end

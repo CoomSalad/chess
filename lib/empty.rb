@@ -1,6 +1,12 @@
 require './lib/chess_piece'
 
 class Empty < ChessPiece
+  EMPTY = '□'
+
+  def initialize
+    super(EMPTY)
+  end
+
   def match_move_pattern?(start, destination, space)
     puts 'You should not see this. match_move_pattern? not implemented.'
     false
